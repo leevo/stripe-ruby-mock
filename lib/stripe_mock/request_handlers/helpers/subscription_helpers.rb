@@ -6,17 +6,17 @@ module StripeMock
         customer[:subscriptions][:data].find{|sub| sub[:id] == sub_id }
       end
 
-      def resolve_subscription_changes(subscription, plans, customer, options = {})
-        subscription.merge!(custom_subscription_params(plans, customer, options))
+      def resolve_subscription_changes(subscription, prices, customer, options = {})
+        subscription.merge!(custom_subscription_params(prices, customer, options))
         items = options[:items]
         items = items.values if items.respond_to?(:values)
-        subscription[:items][:data] = plans.map do |plan|
-          if items && items.size == plans.size
+        subscription[:items][:data] = prices.map do |price|
+          if items && items.size == prices.size
             quantity = items &&
-              items.detect { |item| item[:plan] == plan[:id] }[:quantity] || 1
-            Data.mock_subscription_item({ plan: plan, quantity: quantity })
+              items.detect { |item| item[:price] == price[:id] }[:quantity] || 1
+            Data.mock_subscription_item({ price: price, quantity: quantity })
           else
-            Data.mock_subscription_item({ plan: plan })
+            Data.mock_subscription_item({ price: price })
           end
         end
         subscription

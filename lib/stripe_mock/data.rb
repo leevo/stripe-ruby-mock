@@ -1317,5 +1317,33 @@ module StripeMock
         success_url: 'https://example.com/success'
       }.merge(params)
     end
+
+    def self.mock_price(params = {})
+      setup_intent_id = params[:id] || "price_1IGuFbGdSNdA4smSXdU1ONyA"
+      {
+        id: "price_1IGuFbGdSNdA4smSXdU1ONyA",
+        object: "price",
+        active: true,
+        billing_scheme: "per_unit",
+        created: 1612469876,
+        currency: "usd",
+        livemode: false,
+        lookup_key: nil,
+        metadata: {},
+        nickname: nil,
+        product: "plan_personal",
+        recurring: {
+          aggregate_usage: nil,
+          interval: "month",
+          interval_count: 1,
+          usage_type: "licensed"
+        },
+        tiers_mode: nil,
+        transform_quantity: nil,
+        type: "recurring",
+        unit_amount: 20,
+        unit_amount_decimal: "20"
+      }.merge(params)
+    end
   end
 end
