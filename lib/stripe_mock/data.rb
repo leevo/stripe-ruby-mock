@@ -1328,18 +1328,18 @@ module StripeMock
         created: 1612469876,
         currency: "usd",
         livemode: false,
-        lookup_key: null,
+        lookup_key: nil,
         metadata: {},
-        nickname: null,
+        nickname: nil,
         product: "plan_personal",
         recurring: {
-          aggregate_usage: null,
+          aggregate_usage: nil,
           interval: "month",
           interval_count: 1,
           usage_type: "licensed"
         },
-        tiers_mode: null,
-        transform_quantity: null,
+        tiers_mode: nil,
+        transform_quantity: nil,
         type: "recurring",
         unit_amount: 20,
         unit_amount_decimal: "20"

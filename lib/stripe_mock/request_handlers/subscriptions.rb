@@ -38,7 +38,7 @@ module StripeMock
         stripe_account = headers[:stripe_account] || Stripe.api_key
         route =~ method_url
 
-        subscription_plans = get_subscription_plans_from_params(params)
+        subscription_plans = get_subscription_prices_from_params(params)
         customer = assert_existence :customer, $1, customers[stripe_account][$1]
 
         if params[:source]
@@ -86,7 +86,7 @@ module StripeMock
         end
         route =~ method_url
 
-        subscription_plans = get_subscription_plans_from_params(params)
+        subscription_plans = get_subscription_prices_from_params(params)
 
         customer = params[:customer]
         customer_id = customer.is_a?(Stripe::Customer) ? customer[:id] : customer.to_s
@@ -180,7 +180,7 @@ module StripeMock
           customer[:default_source] = new_card[:id]
         end
 
-        subscription_plans = get_subscription_plans_from_params(params)
+        subscription_plans = get_subscription_prices_from_params(params)
 
         # subscription plans are not being updated but load them for the response
         if subscription_plans.empty?
@@ -258,20 +258,18 @@ module StripeMock
 
       private
 
-      def get_subscription_plans_from_params(params)
-        plan_ids = if params[:plan]
-                     [params[:plan].to_s]
-                   elsif params[:items]
+      def get_subscription_prices_from_params(params)
+        price_ids = if params[:items]
                      items = params[:items]
                      items = items.values if items.respond_to?(:values)
-                     items.map { |item| item[:plan].to_s if item[:plan] }
+                     items.map { |item| item[:price].to_s if item[:price].present? }
                    else
                      []
                    end
-        plan_ids.each do |plan_id|
-          assert_existence :plan, plan_id, plans[plan_id]
+        price_ids.each do |price_id|
+          assert_existence :price, price_id, prices[price_id]
         end
-        plan_ids.map { |plan_id| plans[plan_id] }
+        price_ids.map { |price_id| prices[price_id] }
       end
 
       # Ensure customer has card to charge unless one of the following criterias is met:
