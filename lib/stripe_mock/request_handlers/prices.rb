@@ -41,7 +41,7 @@ module StripeMock
           )
         end
 
-        price[id].clone
+        prices[id].clone
       end
 
       def update_price(route, method_url, params, _headers)
